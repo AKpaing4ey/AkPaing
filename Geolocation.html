@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Geolocation — Distance to Kasem Bundit University</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    h1 { color: #2c3e50; }
+    button { padding: 8px 12px; margin: 6px 6px 6px 0; cursor: pointer; }
+    .info { margin-top: 16px; }
+    .error { color: red; font-weight: bold; }
+    .success { color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Geolocation — Distance to Kasem Bundit University</h1>
+  <p>Click the button to let the browser find your location, then the page will calculate how far you are from Kasem Bundit University.</p>
+
+  <button id="whereBtn">Where am I?</button>
+  <button id="resetBtn">Reset</button>
+  <button id="backBtn">Back</button>
+
+  <div class="info" id="info"></div>
+
+  <script>
+    // Coordinates for Kasem Bundit University (Pattanakarn campus)
+    // Source: map listings (used for calculation in this page).
+    const KBU = { lat: 13.73918, lon: 100.6277 }; // coordinates from public listings
+
+    const infoEl = document.getElementById('info');
+    const whereBtn = document.getElementById('whereBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const backBtn = document.getElementById('backBtn');
+
+    function showMessage(html, cls='') {
+      infoEl.innerHTML = '<div class="' + cls + '">' + html + '</div>';
+    }
+
+    // Haversine formula to compute distance (in kilometers)
+    function haversineDistance(lat1, lon1, lat2, lon2) {
+      function toRad(deg) { return deg * Math.PI / 180; }
+      const R = 6371; // Earth's radius in km
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
+    function handlePosition(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const accuracy = position.coords.accuracy; // meters
+
+      const distKm = haversineDistance(lat, lon, KBU.lat, KBU.lon);
+      const distKmRounded = Math.round(distKm * 100) / 100; // 2 decimals
+
+      const msg = `You're ${distKmRounded} km away from the Kasem Bundit University.`;
+      const details = `Your location: ${lat.toFixed(6)}, ${lon.toFixed(6)} (accuracy: ${Math.round(accuracy)} m).<br>` +
+                      `Kasem Bundit University (used for calculation): ${KBU.lat}, ${KBU.lon}.`;
+
+      showMessage('<strong>' + msg + '</strong><br>' + details, 'success');
+    }
+
+    function handleError(err) {
+      let text = '';
+      switch(err.code) {
+        case err.PERMISSION_DENIED:
+          text = 'Permission denied. Please allow location access and try again.';
+          break;
+        case err.POSITION_UNAVAILABLE:
+          text = 'Position unavailable. Try again later.';
+          break;
+        case err.TIMEOUT:
+          text = 'Request timed out. Try again.';
+          break;
+        default:
+          text = 'Error getting location: ' + err.message;
+      }
+      showMessage(text, 'error');
+    }
+
+    whereBtn.addEventListener('click', () => {
+      if (!('geolocation' in navigator)) {
+        showMessage('Geolocation is not supported by your browser.', 'error');
+        return;
+      }
+
+      showMessage('Requesting your location… (please allow the browser to share it)');
+      navigator.geolocation.getCurrentPosition(handlePosition, handleError, {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0
+      });
+    });
+
+    resetBtn.addEventListener('click', () => {
+      infoEl.innerHTML = '';
+    });
+
+    backBtn.addEventListener('click', () => {
+      window.history.back();
+    });
+  </script>
+</body>
+</html>

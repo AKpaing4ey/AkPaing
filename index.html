@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aung Kyaw Paing - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            padding: 50px;
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .container:hover {
+            transform: translateY(-8px);
+        }
+
+        .header {
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 3em;
+            font-weight: 700;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.3em;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0 auto 40px;
+            border-radius: 2px;
+        }
+
+        .navigation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 25px 30px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
+        }
+
+        .nav-button:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        .nav-button.special {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .nav-button.special:hover {
+            box-shadow: 0 15px 35px rgba(76, 175, 80, 0.5);
+        }
+
+        .nav-button.tools {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.3);
+        }
+
+        .nav-button.tools:hover {
+            box-shadow: 0 15px 35px rgba(255, 152, 0, 0.5);
+        }
+
+        .nav-button.location {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+        }
+
+        .nav-button.location:hover {
+            box-shadow: 0 15px 35px rgba(33, 150, 243, 0.5);
+        }
+
+        .nav-button .icon {
+            font-size: 1.5em;
+        }
+
+        .nav-button .description {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .footer p {
+            color: #666;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 8px;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .social-link:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 25px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .subtitle {
+                font-size: 1.1em;
+            }
+            
+            .navigation-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .nav-button {
+                padding: 20px 25px;
+                font-size: 1.1em;
+            }
+            
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .nav-button {
+                padding: 18px 20px;
+                font-size: 1em;
+            }
+        }
+
+        /* Loading animation */
+        .container {
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-button {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .nav-button:nth-child(1) { animation-delay: 0.1s; }
+        .nav-button:nth-child(2) { animation-delay: 0.2s; }
+        .nav-button:nth-child(3) { animation-delay: 0.3s; }
+        .nav-button:nth-child(4) { animation-delay: 0.4s; }
+        .nav-button:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Aung Kyaw Paing</h1>
+            <p class="subtitle">IT Student & Web Developer Portfolio</p>
+            <div class="divider"></div>
+        </div>
+        
+        <div class="navigation-grid">
+            <a href="./resume.html" class="nav-button special">
+                <div>
+                    <div class="icon">👤</div>
+                    <div>My Resume</div>
+                    <div class="description">Professional background & experience</div>
+                </div>
+            </a>
+            
+            <a href="./grading modified aungkyawpaing.html" class="nav-button">
+                <div>
+                    <div class="icon">📊</div>
+                    <div>Grade Calculator</div>
+                    <div class="description">Calculate letter grades from scores</div>
+                </div>
+            </a>
+            
+            <a href="./unit coverter modified aungkyawpaing.html" class="nav-button tools">
+                <div>
+                    <div class="icon">🔧</div>
+                    <div>Unit Converter</div>
+                    <div class="description">Convert length, temperature & area</div>
+                </div>
+            </a>
+            
+            <a href="./Geolocation.html" class="nav-button location">
+                <div>
+                    <div class="icon">📍</div>
+                    <div>Geolocation Tool</div>
+                    <div class="description">Find distance to university</div>
+                </div>
+            </a>
+            
+            <a href="#" class="nav-button" onclick="showComingSoon(this)">
+                <div>
+                    <div class="icon">🚀</div>
+                    <div>Project 5</div>
+                    <div class="description">Coming soon...</div>
+                </div>
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>Welcome to my web development portfolio</p>
+            <p>Click any button above to explore my projects and tools</p>
+            
+            <div class="social-links">
+                <a href="mailto:aungkyaw@example.com" class="social-link">📧 Email</a>
+                <a href="https://akpaing.netlify.app/" class="social-link" target="_blank">🌐 Portfolio</a>
+                <a href="#" class="social-link" onclick="showContactInfo()">📞 Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.width = particle.style.height = (Math.random() * 6 + 4) + 'px';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                document.body.appendChild(particle);
+            }
+        }
+
+        // Show coming soon message
+        function showComingSoon(button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = '<div><div class="icon">⏳</div><div>Coming Soon</div><div class="description">This project is in development</div></div>';
+            button.style.background = 'linear-gradient(135deg, #9e9e9e 0%, #757575 100%)';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }, 2000);
+        }
+
+        // Show contact information
+        function showContactInfo() {
+            alert('Contact Information:\n\n📧 Email: aungkyaw@example.com\n📞 Phone: +66 912 345 678\n🏫 Location: Kasem Bundit University, Bangkok, Thailand');
+        }
+
+        // Add smooth scroll behavior for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Add hover sound effect simulation (visual feedback)
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.filter = 'brightness(1.1)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.filter = 'brightness(1)';
+                });
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const buttons = document.querySelectorAll('.nav-button');
+            const currentFocus = document.activeElement;
+            const currentIndex = Array.from(buttons).indexOf(currentFocus);
+            
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                const nextIndex = (currentIndex + 1) % buttons.length;
+                buttons[nextIndex].focus();
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const prevIndex = currentIndex <= 0 ? buttons.length - 1 : currentIndex - 1;
+                buttons[prevIndex].focus();
+            } else if (e.key === 'Enter' && currentFocus.classList.contains('nav-button')) {
+                currentFocus.click();
+            }
+        });
+
+        // Add loading animation delay
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Portfolio Hub</h1>
+            <p class="subtitle">Explore My Web Development Projects</p>
+            <div class="divider"></div>
+        </div>
+        
+        <div class="navigation-grid">
+            <a href="AKPaing_Resume.html" class="nav-button special" tabindex="0">
+                <div>
+                    <div class="icon">👤</div>
+                    <div>My Resume</div>
+                    <div class="description">Professional background & experience</div>
+                </div>
+            </a>
+            
+            <a href="grading modified aungkyawpaing.html" class="nav-button" tabindex="0">
+                <div>
+                    <div class="icon">📊</div>
+                    <div>Grade Calculator</div>
+                    <div class="description">Calculate letter grades from scores</div>
+                </div>
+            </a>
+            
+            <a href="unit coverter modified aungkyawpaing.html" class="nav-button tools" tabindex="0">
+                <div>
+                    <div class="icon">🔧</div>
+                    <div>Unit Converter</div>
+                    <div class="description">Convert length, temperature & area</div>
+                </div>
+            </a>
+            
+            <a href="Geolocation.html" class="nav-button location" tabindex="0">
+                <div>
+                    <div class="icon">📍</div>
+                    <div>Geolocation Tool</div>
+                    <div class="description">Find distance to university</div>
+                </div>
+            </a>
+            
+            <a href="#" class="nav-button" onclick="showComingSoon(this); return false;" tabindex="0">
+                <div>
+                    <div class="icon">🚀</div>
+                    <div>Project 5</div>
+                    <div class="description">Coming soon...</div>
+                </div>
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>Welcome to my web development portfolio</p>
+            <p>Click any button above to explore my projects and tools</p>
+            
+            
+        </div>
+    </div>
+</body>
+</html>
